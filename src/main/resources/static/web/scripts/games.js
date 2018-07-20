@@ -32,7 +32,7 @@ var main = new Vue({
         gameInformation: function () {
             var empty = [];
             for (var i = 0; i < main.games.length; i++) {
-                var date = new Date(main.games[i].created).toString();
+                var date = new Date(main.games[i].created).toLocaleString();
                 var playerOne = main.games[i].gamePlayers[0].player.email;
                  if (main.games[i].gamePlayers[1] != null ) {
                     var playerTwo = main.games[i].gamePlayers[1].player.email;

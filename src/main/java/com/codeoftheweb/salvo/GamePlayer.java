@@ -1,13 +1,9 @@
 package com.codeoftheweb.salvo;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
     public class GamePlayer {
@@ -26,9 +22,11 @@ import java.util.Date;
         @JoinColumn(name="game_id")
         private Game game;
 
+        @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
+        Set<Ship> ships = new HashSet<>();
 
 
-        public GamePlayer() { }
+    public GamePlayer() { }
 
         public GamePlayer(Player player, Game game, Date date) {
             this.player = player;
@@ -67,5 +65,23 @@ import java.util.Date;
 
     public void setId(long id) {
         this.id = id;
+    }
+
+//    public Set<Pet> getPets() {
+//        return pets;
+//    }
+//
+//    public void addPet(Pet pet) {
+//        pet.setOwner(this);
+//        pets.add(pet);
+//    }
+
+
+    public Set<Ship> getShips() {
+        return ships;
+    }
+
+    public void setShips(Set<Ship> ships) {
+        this.ships = ships;
     }
 }

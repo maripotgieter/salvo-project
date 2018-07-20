@@ -4,7 +4,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication
 public class SalvoApplication {
@@ -20,7 +23,8 @@ public class SalvoApplication {
 	@Bean
 	public CommandLineRunner initData(GameRepository gameRepository,
                                       PlayerRepository playerRepository,
-                                      GamePlayerRepository gamePlayerRepository) {
+                                      GamePlayerRepository gamePlayerRepository,
+                                      ShipRepository shipRepository) {
 		return (args) -> {
 
 
@@ -67,6 +71,8 @@ public class SalvoApplication {
             gameRepository.save(game7);
             gameRepository.save(game8);
 
+
+
             GamePlayer gamePlayer1 = new GamePlayer(player1, game1, date1);
             GamePlayer gamePlayer2 = new GamePlayer(player2,game1, date1);
             GamePlayer gamePlayer3 = new GamePlayer(player1, game2, date3);
@@ -82,7 +88,6 @@ public class SalvoApplication {
             GamePlayer gamePlayer13 = new GamePlayer(player3, game8, date3);
             GamePlayer gamePlayer14 = new GamePlayer(player4, game8, date3);
 
-
             gamePlayerRepository.save(gamePlayer1);
             gamePlayerRepository.save(gamePlayer2);
             gamePlayerRepository.save(gamePlayer3);
@@ -97,6 +102,23 @@ public class SalvoApplication {
             gamePlayerRepository.save(gamePlayer12);
             gamePlayerRepository.save(gamePlayer13);
             gamePlayerRepository.save(gamePlayer14);
+
+
+            List<String>location1 = Arrays.asList("H1","H2","H3");
+
+            //            Ship ship1 = new Ship("Cruiser");
+            Ship ship2 = new Ship("Destroyer", gamePlayer1, location1);
+            Ship ship3 = new Ship("Destroyer", gamePlayer2, location1);
+            Ship ship4 = new Ship("Patrol Boat", gamePlayer3, location1);
+            Ship ship5 = new Ship("Carrier", gamePlayer4, location1);
+            Ship ship6 = new Ship("Battleship", gamePlayer5, location1);
+
+            shipRepository.save(ship2);
+            shipRepository.save(ship3);
+            shipRepository.save(ship4);
+            shipRepository.save(ship5);
+            shipRepository.save(ship6);
+//            shipRepository.sa
 
 
 
