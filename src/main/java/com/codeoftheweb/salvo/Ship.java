@@ -1,5 +1,7 @@
 package com.codeoftheweb.salvo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ public class Ship {
         this.gamePlayer = gamePlayer;
         this.locations = locations;
     }
-
+    @JsonIgnore
     public GamePlayer getGamePlayer() {
         return gamePlayer;
     }

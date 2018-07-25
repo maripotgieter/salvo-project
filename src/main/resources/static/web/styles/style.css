@@ -1,0 +1,36 @@
+.ship-location {
+    background-color: dodgerblue;
+}
+
+td {
+    width: 9.1%;
+    height: 9.1%;
+    border: 2px solid #ccc;
+    
+}
+
+th {
+    background: lightblue;
+    border-color: white;
+    text-align: center;
+
+}
+
+.flexbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    
+}
+
+.flex_1 {
+    width: 45%;
+    margin: auto;
+}
+
+.flex_2 {
+    width: 45%;
+    margin: auto;
+}
+

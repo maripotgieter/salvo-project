@@ -25,6 +25,9 @@ import java.util.Set;
         @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
         Set<Ship> ships = new HashSet<>();
 
+        @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
+        Set<Salvo> salvoes = new HashSet<>();
+
 
     public GamePlayer() { }
 
@@ -34,6 +37,13 @@ import java.util.Set;
             this.date = date;
         }
 
+    public Set<Salvo> getSalvoes() {
+        return salvoes;
+    }
+
+    public void setSalvoes(Set<Salvo> salvoes) {
+        this.salvoes = salvoes;
+    }
 
     public Date getDate() {
         return date;
@@ -66,16 +76,6 @@ import java.util.Set;
     public void setId(long id) {
         this.id = id;
     }
-
-//    public Set<Pet> getPets() {
-//        return pets;
-//    }
-//
-//    public void addPet(Pet pet) {
-//        pet.setOwner(this);
-//        pets.add(pet);
-//    }
-
 
     public Set<Ship> getShips() {
         return ships;

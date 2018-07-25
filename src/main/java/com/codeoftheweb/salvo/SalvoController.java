@@ -2,14 +2,14 @@ package com.codeoftheweb.salvo;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 
 @RestController
@@ -50,7 +50,60 @@ public class SalvoController {
         return dto;
     }
 
+    public Map<String, Object> fillShipDTO (Ship ship) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("type", ship.getType());
+        dto.put("location", ship.getLocations());
+        return  dto;
     }
+
+    private List<Object> salvoList (GamePlayer gamePlayer) {
+        List<Object> salvoList = new ArrayList<>();
+        Set<Salvo> salvosSet = gamePlayer.getSalvoes();
+        for (Salvo salvo : salvosSet) {
+            salvoList.add(fillTheSalvoTypeDTO(salvo));
+        }
+        return salvoList;
+    }
+//
+//    private Map<String, Object> fillTheSalvoTypeDTO (Salvo salvo) {
+//        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+//        dto.put("turn", salvo.getTurn());
+//        dto.put("player", salvo.getId());
+//        dto.put("locations", salvo.getSalvoLocations());
+//        return  dto;
+//    }
+
+    private Map<String, Object> fillTheSalvoTypeDTO (Salvo salvo) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("turn", salvo.getTurn());
+        dto.put("player", salvo.getGamePlayer().getId());
+        dto.put("locations", salvo.getSalvoLocations());
+        return  dto;
+    }
+
+
+    @Autowired
+    private GamePlayerRepository gamePlayerRepository;
+
+    @RequestMapping("/game_view/{id}")
+    public Map<String, Object>  findGamePlayerID (@PathVariable Long id) {
+        GamePlayer gamePlayer = gamePlayerRepository.findOne(id);
+
+        Map<String, Object> gameViewMap = new HashMap<>();
+        gameViewMap. put ("game", toDTO(gamePlayer.getGame()));
+        gameViewMap. put ("ships", gamePlayer.getShips().stream()
+                .map(ship -> fillShipDTO(ship))
+                .collect(toList()));
+        gameViewMap. put ("salvoes", gamePlayer.getGame().getGamePlayers().stream()
+                .map(gp -> salvoList(gp))
+                .collect(toList()));
+        return gameViewMap;
+    }
+
+
+
+}
 
 
 

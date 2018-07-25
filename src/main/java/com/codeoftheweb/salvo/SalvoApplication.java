@@ -24,7 +24,8 @@ public class SalvoApplication {
 	public CommandLineRunner initData(GameRepository gameRepository,
                                       PlayerRepository playerRepository,
                                       GamePlayerRepository gamePlayerRepository,
-                                      ShipRepository shipRepository) {
+                                      ShipRepository shipRepository,
+                                      SalvoRepository salvoRepository) {
 		return (args) -> {
 
 
@@ -104,23 +105,52 @@ public class SalvoApplication {
             gamePlayerRepository.save(gamePlayer14);
 
 
-            List<String>location1 = Arrays.asList("H1","H2","H3");
+            List<String>location1 = Arrays.asList("H2","H3","H4");
+            List<String>location2 = Arrays.asList("E1","F1","G1");
+            List<String>location3 = Arrays.asList("B4", "B5");
+            List<String>location4 = Arrays.asList("B5","C5","D5");
+            List<String>location5 = Arrays.asList("F1", "F2");
 
-            //            Ship ship1 = new Ship("Cruiser");
+
             Ship ship2 = new Ship("Destroyer", gamePlayer1, location1);
-            Ship ship3 = new Ship("Destroyer", gamePlayer2, location1);
-            Ship ship4 = new Ship("Patrol Boat", gamePlayer3, location1);
-            Ship ship5 = new Ship("Carrier", gamePlayer4, location1);
-            Ship ship6 = new Ship("Battleship", gamePlayer5, location1);
+            Ship ship3 = new Ship("Submarine", gamePlayer1, location2);
+            Ship ship4 = new Ship("Patrol Boat", gamePlayer1, location3);
+            Ship ship5 = new Ship("Destroyer", gamePlayer2, location4);
+            Ship ship6 = new Ship("Patrol Boat", gamePlayer2, location5);
 
             shipRepository.save(ship2);
             shipRepository.save(ship3);
             shipRepository.save(ship4);
             shipRepository.save(ship5);
             shipRepository.save(ship6);
-//            shipRepository.sa
 
 
+            List<String>salvoLocation1 =  Arrays.asList("B5", "C5", "F1");
+            List<String>salvoLocation2 =  Arrays.asList("B4", "B5", "B6");
+            List<String>salvoLocation3 =  Arrays.asList("F2", "D5");
+            List<String>salvoLocation4 =  Arrays.asList("E1", "H3", "A2");
+            List<String>salvoLocation5 =  Arrays.asList("A2", "A4", "G6");
+            List<String>salvoLocation6 =  Arrays.asList("B5", "D5", "C7");
+            List<String>salvoLocation7 =  Arrays.asList("A3", "H6");
+            List<String>salvoLocation8 =  Arrays.asList("C5", "C6");
+
+            Salvo salvo1 = new Salvo(1, gamePlayer1, salvoLocation1);
+            Salvo salvo2 = new Salvo(1, gamePlayer2, salvoLocation2);
+            Salvo salvo3 = new Salvo (2, gamePlayer1, salvoLocation3);
+            Salvo salvo4 = new Salvo (2, gamePlayer2, salvoLocation4);
+            Salvo salvo5 = new Salvo (1, gamePlayer1, salvoLocation5);
+            Salvo salvo6 = new Salvo (1, gamePlayer2, salvoLocation6);
+            Salvo salvo7 = new Salvo (2, gamePlayer1, salvoLocation7);
+            Salvo salvo8 = new Salvo (2, gamePlayer2, salvoLocation8);
+
+            salvoRepository.save(salvo1);
+            salvoRepository.save(salvo2);
+            salvoRepository.save(salvo3);
+            salvoRepository.save(salvo4);
+            salvoRepository.save(salvo5);
+            salvoRepository.save(salvo6);
+            salvoRepository.save(salvo7);
+            salvoRepository.save(salvo8);
 
 		};
 
