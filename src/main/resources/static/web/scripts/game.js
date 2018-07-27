@@ -6,18 +6,17 @@ var main = new Vue({
         game: [],
         id: '',
         players: [],
+        playerTwoSalvo: [],
+        playerTwoTurns: [],
+        shipUserLocations: [],
+        shipEnemyLocations: [],
     },
-
-
     created: function () {
         this.findTheID();
         this.start(this.id);
-
     },
     methods: {
-
         start: function (id) {
-
             var fetchConfig =
                 fetch("/api/game_view/" + id, {
                     method: "GET",
@@ -26,17 +25,14 @@ var main = new Vue({
                     if (response.ok) {
                         return response.json();
                     }
-
                 }).then(function (json) {
-
                     var data = json;
                     console.log("data", data);
                     main.game = data;
-
                     main.locationInformation();
                     main.gameInformation();
-                    main.salvoLocationInformation();
-
+                    main.salvoLocationInformationEnemy(main.game.enemy_salvoes,main.shipUserLocations, "U");
+                    main.salvoLocationInformationEnemy(main.game.user_salvoes,main.shipEnemyLocations,"E");
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -47,54 +43,41 @@ var main = new Vue({
             for (var i = 0; i < ships.length; i++) {
                 for (var j = 0; j < ships[i].location.length; j++) {
                     let shipLocation = this.game.ships[i].location[j];
-                    console.log(shipLocation);
+                    this.shipUserLocations.push(shipLocation);
                     document.getElementById("U" + shipLocation).classList.add("ship-location");
                 }
             }
-
         },
         findTheID: function () {
-            var url = location.search;
-            var x = url.split("=")[1];
-
-            this.id = x;
-
+                this.id = location.search.split("=")[1];
         },
         gameInformation: function () {
             var empty = [];
-            for (var i = 0; i < this.game.game.gamePlayers.length; i++) {
-
-                if (this.id == this.game.game.gamePlayers[i].player.id) {
-                    var player = this.game.game.gamePlayers[i].player.email + " (You)"
-                } else {
-                    var player = this.game.game.gamePlayers[i].player.email;
+            let gamePlayers = this.game.game.gamePlayers;
+            for (var i = 0; i < gamePlayers.length; i++) {
+                var player = gamePlayers[i].player.email;
+                if (this.id == gamePlayers[i].id) {
+                    player +=" (You)";
                 }
                 empty.push(player);
                 this.players = empty;
-
             }
-            console.log(this.players);
         },
-        salvoLocationInformation: function () {
-            let salvoes = this.game.salvoes;
+        salvoLocationInformationEnemy: function (salvoes,shipArray, tbl) {
+            var matches = [];
             for (var i = 0; i < salvoes.length; i++) {
-//                                console.log(salvoes[i].length);
-                for (var j = 0; j < salvoes[i].length; j++) {
-//                                        console.log(salvoes[i][j]);
-                    let salvoArray = salvoes[i][j];
-//                    console.log(salvoArray..length);
-                    for (var k = 0; k < salvoArray.locations.length; k++) {
-                        let salvoArr = salvoArray.locations[k];
-                        console.log(salvoArr);
-                        //                       let salvoLocation = this.salvoes[i][j].location[k]; 
-                        //                        console.log(salvoLocation);
-                    }
-
+                let salvoArray = salvoes[i].locations;
+                for (var j = 0; j < salvoArray.length; j++) {
+                    let cell = document.getElementById(tbl + salvoArray[j]);
+                    cell.innerHTML = salvoes[i].turn;
+                    if (cell.classList.contains("ship-location")) {
+                        cell.classList.remove('ship-location');
+                        cell.classList.add('hits');
+                    } else {
+                        cell.classList.add("salvo-location");
+                    } 
                 }
             }
-        }
-
-
+        },
     },
-
 })
