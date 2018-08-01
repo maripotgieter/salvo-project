@@ -25,7 +25,8 @@ public class SalvoApplication {
                                       PlayerRepository playerRepository,
                                       GamePlayerRepository gamePlayerRepository,
                                       ShipRepository shipRepository,
-                                      SalvoRepository salvoRepository) {
+                                      SalvoRepository salvoRepository,
+                                      ScoreRepository scoreRepository) {
 		return (args) -> {
 
 
@@ -45,6 +46,10 @@ public class SalvoApplication {
             Date date2 = Date.from(date1.toInstant().plusSeconds(3600));
             Date date3 = Date.from(date1.toInstant().plusSeconds(7200));
             Date date4 = Date.from(date1.toInstant().plusSeconds(10800));
+
+            Date finishDate1 = Date.from(date1.toInstant().plusSeconds(1800));
+            Date finishDate2 = Date.from(date1.toInstant().plusSeconds(5400));
+            Date finishDate3 = Date.from(date1.toInstant().plusSeconds(9000));
 
 
             Game game2 = new Game();
@@ -71,8 +76,6 @@ public class SalvoApplication {
             gameRepository.save(game6);
             gameRepository.save(game7);
             gameRepository.save(game8);
-
-
 
             GamePlayer gamePlayer1 = new GamePlayer(player1, game1, date1);
             GamePlayer gamePlayer2 = new GamePlayer(player2,game1, date1);
@@ -251,6 +254,25 @@ public class SalvoApplication {
             salvoRepository.save(salvo19);
             salvoRepository.save(salvo20);
             salvoRepository.save(salvo21);
+
+            Score score1 = new Score(player1, game1, 1.0, finishDate1);
+            Score score2 = new Score(player2, game1, 0.0, finishDate1);
+            Score score3 = new Score(player1, game2, 0.5, finishDate2);
+            Score score4 = new Score(player2, game2, 0.5, finishDate2);
+            Score score5 = new Score(player2, game3, 1.0, finishDate3);
+            Score score6 = new Score(player4, game3, 0.0, finishDate3);
+            Score score7 = new Score(player2, game4, 0.5, finishDate1);
+            Score score8 = new Score(player1, game4, 0.5, finishDate1);
+
+            scoreRepository.save(score1);
+            scoreRepository.save(score2);
+            scoreRepository.save(score3);
+            scoreRepository.save(score4);
+            scoreRepository.save(score5);
+            scoreRepository.save(score6);
+            scoreRepository.save(score7);
+            scoreRepository.save(score8);
+
 
 
 		};

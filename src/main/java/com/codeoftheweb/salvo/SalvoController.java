@@ -5,11 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.*;
-
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 
 @RestController
@@ -41,6 +38,9 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", gamePlayer.getId());
         dto.put("player", makePlayerDTO(gamePlayer.getPlayer()));
+        if (gamePlayer.getScore() != null) {
+            dto.put("score", gamePlayer.getScore().getScore());
+        }
         return dto;
     }
     private Map<String, Object> makePlayerDTO(Player player) {
@@ -74,7 +74,6 @@ public class SalvoController {
         return  dto;
     }
 
-
     @Autowired
     private GamePlayerRepository gamePlayerRepository;
 
@@ -104,6 +103,26 @@ public class SalvoController {
         GamePlayer opponent = gamePlayerList.get(0);
         return opponent;
 
+    }
+
+    @Autowired
+    private PlayerRepository playerRepository;
+
+    @RequestMapping ("/scoreboard")
+    public List<Object> getScores() {
+        return
+                playerRepository.findAll().stream().map(player -> toScoreDTO(player)).collect(toList());
+
+    }
+
+    private Map<String, Object> toScoreDTO(Player player) {
+        Map<String, Object> scoreMap = new LinkedHashMap<String, Object>();
+        scoreMap.put("player", player.getUserName());
+        scoreMap.put("total", player.getScores().stream().mapToDouble(score -> score.getScore()).sum());
+        scoreMap.put("wins", player.getScores().stream().filter(score -> score.getScore() == 1.0).count());
+        scoreMap.put("losses", player.getScores().stream().filter(score -> score.getScore() == 0.0).count());
+        scoreMap.put("ties", player.getScores().stream().filter(score -> score.getScore() == 0.5).count());
+        return scoreMap;
     }
 
 

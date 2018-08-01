@@ -1,9 +1,7 @@
 package com.codeoftheweb.salvo;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
     public class GamePlayer {
@@ -84,4 +82,24 @@ import java.util.Set;
     public void setShips(Set<Ship> ships) {
         this.ships = ships;
     }
-}
+
+    public Score getScore(){
+//        List<Score> scoreList = new ArrayList<>();
+//        Set<Score> scoreSet = player.getScores();
+//        for (Score score : scoreSet) {
+//            if(score.getGame() == game) {
+//                scoreList.add(score);
+//            }
+//        }
+//        Score score;
+//        if (!scoreList.isEmpty()){
+//            score = scoreList.get(0);
+//        } else {
+//            score = null;
+//        }
+//        return score;
+
+        return player.getScores().stream().filter(s -> s.getGame() == game).findFirst().orElse(null);
+    }
+    }
+

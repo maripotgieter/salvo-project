@@ -1,5 +1,7 @@
 body {
-    font-family: 'Kirang Haerang', cursive;
+/*    font-family: 'Kirang Haerang', cursive;*/
+    font-family: 'MedievalSharp', cursive;
+/*    font-family: 'Pirata One', cursive;*/
 }
 
 h1 {
@@ -12,7 +14,10 @@ h2 {
 }
 
 .ship-location {
-    background-color: #29407C;
+    background: linear-gradient(to right, #051937, #0c2247, #152c58, #1f366a, #29407c);
+    background-image: url(images/ship.png);
+    background-size: contain;
+    
 }
 
 .salvo-location {
@@ -30,6 +35,7 @@ h2 {
     /* w3c */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C70000', endColorstr='#000000', GradientType=1);
     /* ie6-9 */
+    color: white;
 }
 
 .hits {
@@ -48,11 +54,13 @@ h2 {
     /* w3c */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFA305', endColorstr='#000000', GradientType=1);
     /* ie6-9 */
+    color: white;
 }
 
 td {
-    width: 9.1%;
-    height: 9.1%;
+    width: 9%;
+    height: 9%;
+    border: 1px solid gray;
 }
 
 
@@ -69,11 +77,15 @@ th {
     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc', GradientType=0);
     /* IE6-9 */
+    border: 1px solid gray;
+    width: 9%;
+    height: 9%;
 }
 
 table {
     font-size: 20px;
     text-align: center;
+    border: 1px solid gray;
 }
 
 .flexbox {
@@ -81,7 +93,6 @@ table {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-
 }
 
 .flex_1 {
@@ -95,19 +106,16 @@ table {
 }
 
 .flex_1 table {
-    width: 596px;
-    /*    height: 500px;*/
+    width: 550px;
+    height: 550px;
 }
 
 .flex_2 table {
-    width: 596px;
-    /*    height: 500px;*/
+    width: 550px;
+    height: 550px;
 }
 
 .bold {
     font-weight: 800;
     color: darkred;
-}
-table tr > th {
-    border: 1px solid black !important
 }
