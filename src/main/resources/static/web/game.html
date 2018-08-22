@@ -6,71 +6,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> Title </title>
-    <link href="https://fonts.googleapis.com/css?family=Kirang+Haerang|Pontano+Sans" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css?family=Pirata+One" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Kirang+Haerang|Pontano+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pirata+One" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 
 <body>
 
     <div id="main">
-<!--        <div class="container">-->
+        <!--        <div class="container">-->
 
-            <div class="flexbox">
+        <div class="heading">
+            
+            
 
-                <div class="flex_1">
-                    <h1>Ship Locations</h1>
-
-
-
-                    <h2>{{players[0]}} <span class = "bold">v</span> {{players[1]}} </h2>
-
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <th class="datacells"></th>
-                            <th v-for="key in columns">{{key}}</th>
-
-
-                        </tr>
-
-                        <tr v-for="r in rows">
-                            <th> {{r}}</th>
-                            <td v-for="c in columns" v-bind:id="'U'+r+c"></td>
-
-                        </tr>
-
-                    </table>
-                </div>
-
-                <div class="flex_2">
-
-                    <h1>Salvoes</h1>
-                    
-                     <h2>{{players[0]}} <span class = "bold">v</span> {{players[1]}} </h2>
-
-                    <!--            <h2>{{players[0]}} versus {{players[1]}} </h2>-->
-
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <th class="datacells"></th>
-                            <th v-for="key in columns">{{key}}</th>
-
-
-                        </tr>
-
-                        <tr v-for="r in rows">
-                            <th> {{r}}</th>
-                            <td v-for="c in columns" v-bind:id="'E'+r+c"></td>
-
-                        </tr>
-
-                    </table>
-                </div>
+            <div id="pirate_image"></div>
+            <div>
+                <h2> {{players[0]}} <span class="bold">v</span> {{players[1]}} </h2>
             </div>
-<!--        </div>-->
+            <div id="other_pirate_image"></div>
+        </div>
+
+        <div class="flexbox">
+
+            <div class="flex_1">
+                <h1>Ship Locations</h1>
+
+
+
+
+                <table class="table table-bordered">
+
+                    <tr>
+                        <th class="datacells"></th>
+                        <th v-for="key in columns">{{key}}</th>
+
+
+                    </tr>
+
+                    <tr v-for="r in rows">
+                        <th> {{r}}</th>
+                        <td v-for="c in columns" v-bind:id="'U'+r+c">{{r+c}}</td>
+
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="flex_2">
+
+                <h1>Salvoes</h1>
+
+                <!--                     <h2><div id ="other_pirate_image"></div>{{players[0]}} <span class = "bold">v</span> {{players[1]}} </h2>-->
+
+                <!--            <h2>{{players[0]}} versus {{players[1]}} </h2>-->
+
+                <table class="table table-bordered">
+
+                    <tr>
+                        <th class="datacells"></th>
+                        <th v-for="key in columns">{{key}}</th>
+
+
+                    </tr>
+
+                    <tr v-for="r in rows">
+                        <th> {{r}}</th>
+                        <td v-for="c in columns" v-bind:id="'E'+r+c">{{r+c}}</td>
+
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <!--        </div>-->
     </div>
     <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -78,7 +88,7 @@
     <script src="scripts/game.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>-->
+    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>-->
 
 </body>
 

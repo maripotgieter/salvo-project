@@ -1,3 +1,7 @@
+//$.post("/api/login", { userName: "c.obrian@ctu.gov", password: "222" }).done(function() { console.log("logged in!"); })
+$.post("/api/login", { userName: "c.obrian@ctu.gov", password: "42" }).done(function() { console.log("logged in!"); })
+//$.post("/api/logout").done(function() { console.log("logged out"); })
+
 var main = new Vue({
     el: '#main',
     data: {
@@ -10,6 +14,10 @@ var main = new Vue({
         playerTwoTurns: [],
         shipUserLocations: [],
         shipEnemyLocations: [],
+        imageArray: ["1009975.png", "pirate.png", "Pirate_face.png", "pirate_face_2.png", "pirate_face_3.png", "pirate_face_5.png", "1009995.png", "parrot different.png"],
+        image: '',
+        userName:"j.bauer@ctu.gov",
+        password:"24",
     },
     created: function () {
         this.findTheID();
@@ -29,14 +37,29 @@ var main = new Vue({
                     var data = json;
                     console.log("data", data);
                     main.game = data;
+                    main.login();
                     main.locationInformation();
                     main.gameInformation();
-                    main.salvoLocationInformationEnemy(main.game.enemy_salvoes,main.shipUserLocations, "U");
-                    main.salvoLocationInformationEnemy(main.game.user_salvoes,main.shipEnemyLocations,"E");
+                    main.salvoLocationInformationEnemy(main.game.enemy_salvoes, main.shipUserLocations, "U");
+                    main.salvoLocationInformationEnemy(main.game.user_salvoes, main.shipEnemyLocations, "E");
+                    main.shuffleImageArray('pirate_image');
+                    main.shuffleImageArray('other_pirate_image');
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
+        },
+        login: function() {
+            var fetchConfig =
+          fetch("/api/login", {
+                   credentials: 'include',
+                   method: 'POST',
+                   headers: {
+                       'Accept': 'application/json',
+                       'Content-Type': 'application/x-www-form-urlencoded'
+                   },
+                   body: 'userName=' + this.userName + '&password=' + this.password,
+               })  
         },
         locationInformation: function () {
             let ships = this.game.ships;
@@ -49,7 +72,7 @@ var main = new Vue({
             }
         },
         findTheID: function () {
-                this.id = location.search.split("=")[1];
+            this.id = location.search.split("=")[1];
         },
         gameInformation: function () {
             var empty = [];
@@ -57,13 +80,13 @@ var main = new Vue({
             for (var i = 0; i < gamePlayers.length; i++) {
                 var player = gamePlayers[i].player.email;
                 if (this.id == gamePlayers[i].id) {
-                    player +=" (You)";
+                    player += " (You)";
                 }
                 empty.push(player);
                 this.players = empty;
             }
         },
-        salvoLocationInformationEnemy: function (salvoes,shipArray, tbl) {
+        salvoLocationInformationEnemy: function (salvoes, shipArray, tbl) {
             var matches = [];
             for (var i = 0; i < salvoes.length; i++) {
                 let salvoArray = salvoes[i].locations;
@@ -75,9 +98,19 @@ var main = new Vue({
                         cell.classList.add('hits');
                     } else {
                         cell.classList.add("salvo-location");
-                    } 
+                    }
                 }
             }
         },
+        shuffleImageArray: function (id) {
+            var path = 'styles/images/';
+            let imageArray = this.imageArray;
+            var num = Math.floor(Math.random() * imageArray.length);
+            var img = imageArray[num];
+            var div = document.getElementById(id);
+            div.innerHTML += '<img src="' + path + img + '" alt = "">';
+            
+        },
     },
 })
+

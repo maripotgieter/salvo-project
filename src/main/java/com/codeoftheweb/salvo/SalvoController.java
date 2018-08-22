@@ -2,9 +2,12 @@ package com.codeoftheweb.salvo;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.*;
 import static java.util.stream.Collectors.toList;
 
@@ -17,10 +20,32 @@ public class SalvoController {
     @Autowired
     private GameRepository repo;
 
-    @RequestMapping("/games")
-    public List<Object> getAll() {
-        return
-                repo.findAll().stream().map(game -> toDTO(game)).collect(toList());
+
+    @Autowired
+    private PlayerRepository playerRepository;
+
+
+
+//
+//    public List<Object> getAll() {
+//        return
+//                repo.findAll().stream().map(game -> toDTO(game)).collect(toList());
+//
+//    }
+
+//    public Player getCurrentUser (Authentication authentication) {
+//        return playerRepository.findByUserName(authentication.getName());
+//    }
+@RequestMapping("/games")
+    private Map<String, Object> toAO(Authentication authentication) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        if (authentication != null) {
+            dto.put("player", makePlayerDTO(playerRepository.findByUserName(authentication.getName())));
+            dto.put("games", repo.findAll().stream().map(game -> toDTO(game)).collect(toList()));
+        } else {
+            dto.put("games", repo.findAll().stream().map(game -> toDTO(game)).collect(toList()));
+        }
+        return dto;
 
     }
 
@@ -46,7 +71,7 @@ public class SalvoController {
     private Map<String, Object> makePlayerDTO(Player player) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", player.getId());
-        dto.put("email", player.getUserName());
+        dto.put("username", player.getUserName());
         return dto;
     }
 
@@ -105,14 +130,11 @@ public class SalvoController {
 
     }
 
-    @Autowired
-    private PlayerRepository playerRepository;
 
     @RequestMapping ("/scoreboard")
     public List<Object> getScores() {
         return
                 playerRepository.findAll().stream().map(player -> toScoreDTO(player)).collect(toList());
-
     }
 
     private Map<String, Object> toScoreDTO(Player player) {
@@ -124,6 +146,26 @@ public class SalvoController {
         scoreMap.put("ties", player.getScores().stream().filter(score -> score.getScore() == 0.5).count());
         return scoreMap;
     }
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String name) {
+        if (name.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "No name"), HttpStatus.FORBIDDEN);
+        }
+        Player player = playerRepository.findByUserName(name);
+        if (player != null) {
+            return new ResponseEntity<>(makeMap("error", "Name is use"), HttpStatus.FORBIDDEN);
+        }
+        Player newPlayer = playerRepository.save(new User(name));
+        return new ResponseEntity<>(makeMap("name", newPlayer.getUserName()), HttpStatus.CREATED);
+    }
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
+
+
 
 
 
