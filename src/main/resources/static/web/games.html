@@ -26,6 +26,10 @@
                 <li v-for="game in games" > {{game.date}} , {{game.emailOne}} , {{game.emailTwo}} </li>
             </ol>
 -->
+            <div>
+                <form action="">Username:<br><input type ="text" v-model="userName" name="userName"><br>Password:<br><input type ="text" v-model="password" name="password"><br><br><input v-on:click =" login()" type="button" value="Login"></form>
+                
+            </div>
 
             <div class="container">
 

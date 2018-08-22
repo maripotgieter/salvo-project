@@ -24,18 +24,6 @@ public class SalvoController {
     @Autowired
     private PlayerRepository playerRepository;
 
-
-
-//
-//    public List<Object> getAll() {
-//        return
-//                repo.findAll().stream().map(game -> toDTO(game)).collect(toList());
-//
-//    }
-
-//    public Player getCurrentUser (Authentication authentication) {
-//        return playerRepository.findByUserName(authentication.getName());
-//    }
 @RequestMapping("/games")
     private Map<String, Object> toAO(Authentication authentication) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
@@ -148,23 +136,24 @@ public class SalvoController {
     }
 
     @RequestMapping(path = "/players", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String name) {
-        if (name.isEmpty()) {
+    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String userName, String password) {
+        if (userName.isEmpty()) {
             return new ResponseEntity<>(makeMap("error", "No name"), HttpStatus.FORBIDDEN);
-        }
-        Player player = playerRepository.findByUserName(name);
+        } else {
+        Player player = playerRepository.findByUserName(userName);
         if (player != null) {
-            return new ResponseEntity<>(makeMap("error", "Name is use"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(makeMap("error", "Username in use"), HttpStatus.FORBIDDEN);
+        } else {
+        Player newPlayer = playerRepository.save(new Player(userName, password));
+        return new ResponseEntity<>(makeMap("id", newPlayer.getId()), HttpStatus.CREATED);
         }
-        Player newPlayer = playerRepository.save(new User(name));
-        return new ResponseEntity<>(makeMap("name", newPlayer.getUserName()), HttpStatus.CREATED);
+    }
     }
     private Map<String, Object> makeMap(String key, Object value) {
         Map<String, Object> map = new HashMap<>();
         map.put(key, value);
         return map;
     }
-
 
 
 

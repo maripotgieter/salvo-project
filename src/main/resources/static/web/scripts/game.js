@@ -1,5 +1,5 @@
 //$.post("/api/login", { userName: "c.obrian@ctu.gov", password: "222" }).done(function() { console.log("logged in!"); })
-$.post("/api/login", { userName: "c.obrian@ctu.gov", password: "42" }).done(function() { console.log("logged in!"); })
+//$.post("/api/login", { userName: "c.obrian@ctu.gov", password: "42" }).done(function() { console.log("logged in!"); })
 //$.post("/api/logout").done(function() { console.log("logged out"); })
 
 var main = new Vue({

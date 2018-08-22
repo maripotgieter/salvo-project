@@ -54,13 +54,15 @@
 //});
 
 //$.post("/api/login", { userName: "j.bauer@ctu.gov", password: "123" }).done(function() { console.log("logged in!"); })
-$.post("/api/login", { userName: "j.bauer@ctu.gov", password: "24" }).done(function() { console.log("logged in!"); })
+//$.post("/api/login", { userName: "j.bauer@ctu.gov", password: "24" }).done(function() { console.log("logged in!"); })
 //$.post("/api/logout").done(function() { console.log("logged out"); })
 
 var main = new Vue({
     el: '#main',
     data: {
         scores: [],
+        userName:"",
+        password: "",
     },
     created: function () {
         this.start();
@@ -85,6 +87,18 @@ var main = new Vue({
                 .catch(function (error) {
                     console.log(error);
                 })
+        },
+        login: function() {
+            var fetchConfig =
+          fetch("/api/login", {
+                   credentials: 'include',
+                   method: 'POST',
+                   headers: {
+                       'Accept': 'application/json',
+                       'Content-Type': 'application/x-www-form-urlencoded'
+                   },
+                   body: 'userName=' + this.userName.value + '&password=' + this.password.value,
+               })  
         },
         
     }
