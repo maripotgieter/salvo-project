@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> Title </title>
+    <title> Game </title>
     <link href="https://fonts.googleapis.com/css?family=Kirang+Haerang|Pontano+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Pirata+One" rel="stylesheet">
@@ -18,51 +18,51 @@
         <!--        <div class="container">-->
 
         <div class="heading">
-            
-            
+
+
 
             <div id="pirate_image"></div>
             <div>
-                <h2> {{players[0]}} <span class="bold">v</span> {{players[1]}} </h2>
+                <h2> {{playersOne}} <span class="bold">v</span> {{playersTwo}} </h2>
             </div>
             <div id="other_pirate_image"></div>
         </div>
+
+        <form action=""><input v-on:click="logout()" type="button" value="Logout"></form>
+        
+        <div v-if="win">Game over! You win!</div>
+        <div v-if="lose">Game over! You lose!</div>
+        <div v-if="tie">Game over! It's a tie!</div>
 
         <div class="flexbox">
 
             <div class="flex_1">
                 <h1>Ship Locations</h1>
 
+                <table id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" class="table table-bordered" :class="{'zoom-in':!notYourTurn, 'zoom-out':notYourTurn}">
 
-
-
-                <table class="table table-bordered">
 
                     <tr>
-                        <th class="datacells"></th>
-                        <th v-for="key in columns">{{key}}</th>
-
-
+                        <th></th>
+                        <th class="noDrop" id="table_headers" v-for="key in columns">{{key}}</th>
                     </tr>
 
                     <tr v-for="r in rows">
-                        <th> {{r}}</th>
-                        <td v-for="c in columns" v-bind:id="'U'+r+c">{{r+c}}</td>
-
+                        <th class="noDrop" id="table_columns"> {{r}}</th>
+                        <td v-for="c in columns" class="cell" v-bind:id="'U'+r+c"></td>
+                        <!--                        <td class="noDrop" id="empty_cells" ></td>-->
                     </tr>
 
                 </table>
             </div>
 
-            <div class="flex_2">
+            <div class="flex_2" v-show="salvoGrid">
+
+                <form v-if="notYourTurn" action=""><input v-on:click="postSalvoes(salvoesToPost, id)" type="button" value="FIRE"></form>
 
                 <h1>Salvoes</h1>
 
-                <!--                     <h2><div id ="other_pirate_image"></div>{{players[0]}} <span class = "bold">v</span> {{players[1]}} </h2>-->
-
-                <!--            <h2>{{players[0]}} versus {{players[1]}} </h2>-->
-
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="shoot-the-salvo" :class="{'zoom-in':notYourTurn, 'zoom-out':!notYourTurn}">
 
                     <tr>
                         <th class="datacells"></th>
@@ -73,22 +73,51 @@
 
                     <tr v-for="r in rows">
                         <th> {{r}}</th>
-                        <td v-for="c in columns" v-bind:id="'E'+r+c">{{r+c}}</td>
+                        <td v-for="c in columns" @click="getSalvoId(r+c)" v-bind:id="'E'+r+c">{{r+c}}</td>
 
                     </tr>
 
                 </table>
             </div>
+
+
+
+            <div class="flex_3" v-if="show">
+
+                <form action=""><input v-on:click="postShips(this.arrayOfShips , id)" type="button" value="Let's play!"></form>
+
+                <div class="image_1" id="container-sloop">
+                    <img v-if="show" class="sloop horizontal" id="drag1" src="styles/images/top_1.png" draggable="true" ondragstart="drag(event)" onclick="rotate('drag1')">
+
+                </div>
+
+                <div class="image_2" id="container-cutter">
+                    <img v-if="show" class="cutter horizontal" id="drag2" src="styles/images/top_1.png" draggable="true" ondragstart="drag(event)" onclick="rotate('drag2')">
+                </div>
+                <div class="image_3" id="container-galleon">
+                    <img  v-if="show" class="galleon horizontal" id="drag3" src="styles/images/top_1.png" draggable="true" ondragstart="drag(event)" onclick="rotate('drag3')">
+                </div>
+                <div class="image_4" id="container-carrack">
+                    <img  v-if="show" class="carrack horizontal" id="drag4" src="styles/images/top_1.png" draggable="true" ondragstart="drag(event)" onclick="rotate('drag4')">
+                </div>
+
+
+
+
+            </div>
+
         </div>
-        <!--        </div>-->
+
+
     </div>
+
     <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="scripts/game.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>-->
+
 
 </body>
 

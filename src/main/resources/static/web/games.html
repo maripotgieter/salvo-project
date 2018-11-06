@@ -7,57 +7,132 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Berkshire+Swash|Metamorphous|Uncial+Antiqua|Yellowtail" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles/style_leaderboard.css">
-    <title> Title </title>
+    <title> Games Page </title>
 </head>
 
 <body>
 
     <div id="main">
 
-        <div class = "flexbox">
+        <div class="flexbox">
 
-            <div class = "heading">
-               <div id ="pirate_flag"><img src="styles/images/pirate_flag.png" alt=""></div> <div><h1>Leaderboard </h1></div><div id ="pirate_flag"><img src="styles/images/pirate_flag.png" alt=""></div>
+            <div class="heading">
+                <div id="pirate_flag"><img src="styles/images/pirate_flag.png" alt=""></div>
+                <div>
+                    <h1 v-if="path == 0">Leaderboard </h1>
+                    <h1 v-if="path == 1">Games</h1>
+                </div>
+                <div id="pirate_flag"><img src="styles/images/pirate_flag.png" alt=""></div>
             </div>
+
+
+
+            <div v-if="loggedIn == false">
+                <form name="myForm" action="/action_page.php" onsubmit="return validateForm()">Username:<br><input type="text" v-model="userName" name="userName" required><br>Password:<br><input type="password" v-model="password" name="password" required><br><br><input v-on:click="login()" type="button" value="Login"><input v-on:click=" signUp()" type="button" value="Signup"></form>
+
+            </div>
+
+            <div v-if="loggedIn == true"><input v-on:click="logout()" type="button" value="Logout"><input v-on:click="newGame()" type="button" value="Create game"><input v-on:click="gamesPage()" type="button" value="Games"><input v-on:click="leaderboardPage()" type="button" value="Leaderboard">
+                <div>{{currentUser}}</div>
+            </div>
+
+
+            <div>{{message}}</div>
+
+            <!--            <h1>Salvo!</h1>-->
             <!--
-        <h1>Salvo!</h1>
-            <ol>
-                <li v-for="game in games" > {{game.date}} , {{game.emailOne}} , {{game.emailTwo}} </li>
+            <ol id = "gamesList">
+                <li v-for="game in gameInfo"> {{game.date}} , {{game.emailOne}} , {{game.emailTwo}}, {{game.gamesStatus}} </li>
             </ol>
 -->
-            <div>
-                <form action="">Username:<br><input type ="text" v-model="userName" name="userName"><br>Password:<br><input type ="text" v-model="password" name="password"><br><br><input v-on:click =" login()" type="button" value="Login"></form>
-                
+
+            <div v-if="path == 1">
+
+                <div>
+                    <table id="gamesList">
+
+                        <tr>
+                            <th>#</th>
+                            <!--                            <th>Date</th>-->
+                            <th>Player One</th>
+                            <th>Player Two</th>
+                            <th> Game Status</th>
+
+                        </tr>
+
+                        <tr v-for="game in gameInfo">
+
+                            <td class="games_col">{{game.number}}</td>
+                            <td class="games_col">{{game.emailOne}}</td>
+                            <td class="games_col">{{game.emailTwo}}</td>
+                            <td class="games_col">
+
+
+                                <div v-if="loggedIn == true">
+
+                                    <a v-if="currentUser != game.emailOne && currentUser != game.emailTwo && game.emailTwo != 'JOIN'">IN GAME</a>
+                                    <button v-if="currentUser == game.emailOne" v-on:click="returnToGame(game.gpIdOne)">RETURN</button>
+                                    <button v-if="currentUser == game.emailTwo" v-on:click="returnToGame(game.gpIdTwo)">RETURN</button>
+                                    <button v-if="currentUser != null && currentUser != game.emailOne && game.emailTwo == 'JOIN'" @click="joinGame(game.number)">JOIN GAME</button>
+                                    <!--                                <a v-else >IN GAME</a>-->
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </table>
+                </div>
             </div>
 
-            <div class="container">
 
 
-                <table>
+            <!--
+            <a v-if="currentUser == game.emailOne"  :href="'/web/game.html?gp='+ game.gpIdOne" >RETURN</a>  
+            <a v-if="currentUser == game.emailTwo"  :href="'/web/game.html?gp='+ game.gpIdTwo">RETURN</a>
+-->
 
-                    <tr>
-                        <th>Player Username</th>
-                        <th>Total Score</th>
-                        <th>Wins</th>
-                        <th>Losses</th>
-                        <th>Ties</th>
 
-                    </tr>
+            
 
-                    <tr v-for="s in scores">
 
-                        <td class="player_col">{{s.player}}</td>
-                        <td class="number_col">{{s.total.toFixed(1)}}</td>
-                        <td class="number_col">{{s.wins}}</td>
-                        <td class="number_col">{{s.losses}}</td>
-                        <td class="number_col">{{s.ties}}</td>
-                    </tr>
-                </table>
+            <div v-if="path==0" class="container">
+
+                <div class="scroll">
+                    <table>
+
+                        <tr>
+                            <th>Player Username</th>
+                            <th>Total Score</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Ties</th>
+
+                        </tr>
+
+
+
+
+                        <tr v-for="s in scores">
+
+                            <td class="player_col">{{s.player}}</td>
+                            <td class="number_col">{{s.total.toFixed(1)}}</td>
+                            <td class="number_col">{{s.wins}}</td>
+                            <td class="number_col">{{s.losses}}</td>
+                            <td class="number_col">{{s.ties}}</td>
+
+                        </tr>
+
+                    </table>
+                </div>
             </div>
+
         </div>
-        
-    <div id ="talking_pirate"><img src="styles/images/pirate-2824253_1280.png" alt=""></div>
+                <div v-if="path == 0" class="flexpos">
+        <!--                        <div class="speech-bubble">{{message}}</div>-->
+                    <div id="talking_pirate"><img src="styles/images/pirate-2824253_1280.png" alt=""></div>
+                </div>
     </div>
     <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

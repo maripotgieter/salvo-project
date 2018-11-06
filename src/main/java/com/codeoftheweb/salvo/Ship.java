@@ -13,6 +13,15 @@ public class Ship {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private String type;
+    private Boolean sunk = false;
+
+    public Boolean getSunk() {
+        return sunk;
+    }
+
+    public void setSunk(Boolean sunk) {
+        this.sunk = sunk;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gamePlayer_id")

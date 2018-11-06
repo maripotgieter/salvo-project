@@ -225,7 +225,7 @@ public class SalvoApplication {
 
 
             Salvo salvo1 = new Salvo(1, gamePlayer1, salvoLocation1);
-            Salvo salvo2 = new Salvo(1, gamePlayer2, salvoLocation2);
+            Salvo salvo2 = new Salvo(1, gamePlayer2, location2);
             Salvo salvo3 = new Salvo (2, gamePlayer1, salvoLocation3);
             Salvo salvo4 = new Salvo (2, gamePlayer2, salvoLocation4);
             Salvo salvo5 = new Salvo (1, gamePlayer3, salvoLocation5);
@@ -282,14 +282,14 @@ public class SalvoApplication {
             Score score7 = new Score(player2, game4, 0.5, finishDate1);
             Score score8 = new Score(player1, game4, 0.5, finishDate1);
 
-            scoreRepository.save(score1);
-            scoreRepository.save(score2);
-            scoreRepository.save(score3);
-            scoreRepository.save(score4);
-            scoreRepository.save(score5);
-            scoreRepository.save(score6);
-            scoreRepository.save(score7);
-            scoreRepository.save(score8);
+//            scoreRepository.save(score1);
+//            scoreRepository.save(score2);
+//            scoreRepository.save(score3);
+//            scoreRepository.save(score4);
+//            scoreRepository.save(score5);
+//            scoreRepository.save(score6);
+//            scoreRepository.save(score7);
+//            scoreRepository.save(score8);
 
 
 
@@ -327,7 +327,15 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
 
                 http.authorizeRequests()
-                        .antMatchers("/**").permitAll()
+                        .antMatchers("/web/games.html").permitAll()
+                        .antMatchers("/web/scripts/games.js").permitAll()
+                        .antMatchers("/web/styles/images/**").permitAll()
+                        .antMatchers("/web/styles/fonts/**").permitAll()
+                        .antMatchers("/web/styles/style_leaderboard.css").permitAll()
+                        .antMatchers("/api/games").permitAll()
+                        .antMatchers("/api/login").permitAll()
+                        .antMatchers("/api/players").permitAll()
+                        .antMatchers("/api/scoreboard").permitAll()
                         .antMatchers("/rest").denyAll()
                         .anyRequest().fullyAuthenticated()
                         .and()

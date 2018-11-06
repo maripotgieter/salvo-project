@@ -1,10 +1,10 @@
 body {
-/*    font-family: 'Kirang Haerang', cursive;*/
+    /*    font-family: 'Kirang Haerang', cursive;*/
     font-family: 'MedievalSharp', cursive;
-/*    font-family: 'Pirata One', cursive;*/
+    /*    font-family: 'Pirata One', cursive;*/
     background-image: url(images/pirate-1825392_1280.jpg);
     background-size: cover;
-    margin:0;
+    margin: 0;
 }
 
 h1 {
@@ -13,9 +13,9 @@ h1 {
 
 h2 {
     font-family: 'MedievalSharp', cursive;
-/*    font-family: 'Pontano Sans', sans-serif;*/
+    /*    font-family: 'Pontano Sans', sans-serif;*/
     font-size: 50px;
-    
+
     display: inline-block;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -31,14 +31,22 @@ h2 {
 
 .ship-location {
     background: linear-gradient(to right, #051937, #0c2247, #152c58, #1f366a, #29407c);
-/*    background-image: url(images/ship.png);*/
-/*    background-size: contain;*/
-    
-    
+    /*    background-image: url(images/ship.png);*/
+    /*    background-size: contain;*/
 }
 
 .salvo-location {
     background: -moz-radial-gradient(center, ellipse cover, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(199, 0, 0, 1)), color-stop(100%, rgba(0, 0, 0, 1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    background: radial-gradient(ellipse at center, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C70000', endColorstr='#000000', GradientType=1);
+    color: white;
+}
+.water-location {
+     background: -moz-radial-gradient(center, ellipse cover, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(199, 0, 0, 1)), color-stop(100%, rgba(0, 0, 0, 1)));
     background: -webkit-radial-gradient(center, ellipse cover, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
     background: -o-radial-gradient(center, ellipse cover, rgba(199, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%);
@@ -65,13 +73,14 @@ td {
     height: 9%;
     border: 1px solid black;
     color: lightgray;
-    
-   
+    position: relative;
+
+
 }
 
 td:hover {
-/*  background-color: #ff0000;*/
-  color: #000000;
+    /*  background-color: #ff0000;*/
+    color: #000000;
 }
 
 th {
@@ -110,6 +119,16 @@ table {
     margin: auto;
 }
 
+.flex_3 {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-left: 100px;
+    position: relative;
+
+}
+
 .flex_1 table {
     width: 520px;
     height: 520px;
@@ -126,11 +145,12 @@ table {
 }
 
 /*////////////////////////////////////////////////////////////////*/
+
 /*//////////////////////IMAGES////////////////////////////////////*/
 
-div #pirate_image  {
+div #pirate_image {
     width: 8%;
-    
+
 }
 
 div #other_pirate_image {
@@ -148,14 +168,91 @@ div #other_pirate_image {
 }
 
 /*////////////////////////////////////////////////////////////////*/
+
 /*////////////////////////////POSITIONING/////////////////////////*/
 
 .heading {
     display: flex;
     flex-direction: row;
     justify-content: center;
-     background-image: url(images/treasure_chest_background.jpg);
+    background-image: url(images/treasure_chest_background.jpg);
     background-size: cover;
     height: 15%;
     width: 100%;
+}
+
+.horizontal {
+    transform: rotate(0deg);
+}
+
+.vertical {
+    transform: rotate(90deg);
+    transform-origin: 0%;
+    right: 0;
+}
+
+#drag1,
+#drag2,
+#drag3,
+#drag4 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    width: 200px;
+    height: 40px;
+}
+
+
+.image_1 {
+    position: relative;
+    margin-top: 120px;
+
+}
+
+.image_2 {
+    position: relative;
+    margin-top: 120px;
+}
+
+.image_3 {
+    position: relative;
+    margin-top: 120px;
+
+}
+
+.image_4 {
+    position: relative;
+    margin-top: 120px;
+}
+
+/*////////////////////////////Zoom on turn effect///////////////////////////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////*/
+
+.zoom-out {
+     -moz-transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+
+    -webkit-transition: transform 2.05s ease-in-out;
+    -moz-transition:transform 2.05s ease-in-out;
+    -ms-transition:transform 2.05s ease-in-out;
+    
+}
+
+.zoom-in {
+    -moz-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    -ms-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+
+    -webkit-transition: transform 2.05s ease-in-out;
+    -moz-transition:transform 2.05s ease-in-out;
+    -ms-transition:transform 2.05s ease-in-out;
 }
